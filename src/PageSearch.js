@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+
 // eslint-disable-next-line
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid';
 
 class PageSearch extends Component {
 
- 	constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             query: "",
             books: []
         };
     }
-  
-  	static defaultProps = {
-    	maxResults: 10
+
+    static defaultProps = {
+        maxResults: 10
     }
 
     componentDidMount() {
-      	/*
+        /*
         BooksAPI.getAll().then((books) => {
             this.setState({ books: books });
             console.log("books: ", books);
@@ -28,34 +30,34 @@ class PageSearch extends Component {
 
     updateQuery = (query) => {
         this.setState({ query: query });
-      	if (query === '') {
-        	this.clearBooks();
+        if (query === '') {
+            this.clearBooks();
         } else {
-        	this.searchBooks();
+            this.searchBooks();
         }
-      	
+
     }
 
     searchBooks = () => {
-      	let {query} = this.state,
+        let {query} = this.state,
             {maxResults} = this.props;
 
-      	BooksAPI.search(query, maxResults).then((books) => {
-        	this.setState({ books: books });
+        BooksAPI.search(query, maxResults).then((books) => {
+            this.setState({ books: books });
         })
-   	}
+    }
 
-	clearBooks = () => {
-   		this.setState({ books: [] });
+    clearBooks = () => {
+        this.setState({ books: [] });
     }
 
     render() {
-      const {books, query} = this.state;
+        const {books, query} = this.state;
 
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a href="/" className="close-search">Close</a>
+                    <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         <input
                             onChange={(ev) => this.updateQuery(ev.target.value)}
