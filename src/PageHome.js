@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 // eslint-disable-next-line
 import * as BooksAPI from './BooksAPI'
 import BookShelf from './BookShelf';
+import AppHeader from './AppHeader';
 
 class PageHome extends Component {
 
@@ -38,15 +39,13 @@ class PageHome extends Component {
 
         return (
             <div className="list-books">
-                <div className="list-books-title">
-                    <h1>MyReads</h1>
-                </div>
-                <div className="list-books-content">
+                <AppHeader />
+                <main className="list-books-content" role="main">
                     <div>{shelves.map((shelf) => <BookShelf key={shelf.id} title={shelf.title} books={shelf.books} />)}</div>
-                </div>
-                <div className="open-search">
-                    <Link to="/search">Add a book</Link>
-                </div>
+                </main>
+                <footer className="open-search">
+                    <Link to="/search" title="Add a book">Add a book</Link>
+                </footer>
             </div>
         )
     }

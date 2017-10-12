@@ -6,8 +6,16 @@ class Book extends Component {
         const {book} = this.props,
               {title, authors, imageLinks} = book,
               {smallThumbnail} = imageLinks,
-              coverStyle = {width: 128, height: 193, backgroundImage: `url(${smallThumbnail})`};
-        // console.log("book: ", book);
+              coverStyle = {backgroundImage: `url(${smallThumbnail})`};
+        console.log("authors: ", authors);
+        const authorList = authors.map((author, idx, authors) => {
+            const len = authors.length;
+            if (len > 1 && idx < len - 1) {
+                return `${author}; `;
+            } else {
+                return author;
+            }
+        });
         return (
             <div className="book">
                 <div className="book-top">
@@ -22,8 +30,8 @@ class Book extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="book-title">{title}</div>
-                <div className="book-authors">{authors}</div>
+                <h3 className="book-title">{title}</h3>
+                <p className="book-authors">{authorList}</p>
             </div>
         )
     }

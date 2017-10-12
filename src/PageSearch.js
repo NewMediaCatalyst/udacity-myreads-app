@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 // eslint-disable-next-line
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid';
+import AppHeader from './AppHeader';
 
 class PageSearch extends Component {
 
@@ -56,6 +57,7 @@ class PageSearch extends Component {
 
         return (
             <div className="search-books">
+                <AppHeader />
                 <div className="search-books-bar">
                     <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
