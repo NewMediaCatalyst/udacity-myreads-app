@@ -12,21 +12,12 @@ class PageSearch extends Component {
         super(props);
         this.state = {
             query: "",
-            books: []
+            books: { error: false }
         };
     }
 
     static defaultProps = {
         maxResults: 10
-    }
-
-    componentDidMount() {
-        /*
-        BooksAPI.getAll().then((books) => {
-            this.setState({ books: books });
-            console.log("books: ", books);
-        });
-        */
     }
 
     updateQuery = (query) => {
@@ -44,6 +35,9 @@ class PageSearch extends Component {
             {maxResults} = this.props;
 
         BooksAPI.search(query, maxResults).then((books) => {
+            if (books !== undefined && books.error === undefined) {
+                books.error = false;
+            }
             this.setState({ books: books });
         })
     }
@@ -70,7 +64,7 @@ class PageSearch extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <BooksGrid books={books} />
+                    <BooksGrid page="search" books={books} />
                 </div>
             </div>
         )
