@@ -194,7 +194,6 @@ body,
     opacity: 0;
 }
 
-
 .search-books .book {
     transition: opacity ease-out 0.25s;
 }
@@ -203,7 +202,6 @@ body,
     transform: scale(1);
     opacity: 0.65;
 }
-
 
 .book-title,
 .book-authors {
@@ -263,7 +261,6 @@ body,
     .book-title {
         margin-bottom: 4px;
     }
-
 
     .book-shelf-changer {
         bottom: -10px;

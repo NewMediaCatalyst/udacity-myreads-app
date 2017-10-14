@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 
-// eslint-disable-next-line
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid';
 import AppHeader from './AppHeader';

@@ -8,7 +8,6 @@ class BooksGrid extends Component {
 
     render() {
         const {books, page, updateShelves} = this.props;
-        // if (books === undefined) { return null; }
         let link = null;
 
         if (books !== undefined && books.length > 0) {
@@ -26,7 +25,7 @@ class BooksGrid extends Component {
             </ol>
         }
         if (page === "home" || page === undefined) {
-            link = <Link to="/search">Add a book now &raquo;</Link>
+            link = <Link to="/search">Add a book &raquo;</Link>
         }
         return <div className="no-results">
             {"No books, currently! "}
