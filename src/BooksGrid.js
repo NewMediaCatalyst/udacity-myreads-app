@@ -10,7 +10,7 @@ class BooksGrid extends Component {
         const {books, page, updateShelves} = this.props;
         let link = null;
 
-        if (books !== undefined && books.length > 0) {
+        if (books !== null && books !== undefined && books.length > 0) {
             return <ol className="books-grid">
                 {books.map((book) => (
                     <li key={book.id}>

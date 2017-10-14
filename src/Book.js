@@ -25,13 +25,27 @@ class Book extends Component {
         ]
     }
 
+    componentWillReceiveProps(next_props) {
+        let {book, page} = this.props;
+        if (book === undefined) { return null; }
+        let {shelf} = book;
+        if (page === "search") {
+            if (shelf !== undefined && shelf !== "none") {
+                this.setState({ book_class: "book hide"});
+            }
+        }
+    }
+
+
     handleChange(event) {
-        const {book, page, updateShelves} = this.props,
+        let {book, page, updateShelves} = this.props,
             val = event.target.value;
         if (val === "none" && page === "search") {
             this.setState({ book_class: "book"});
+            console.log("val: " + val + "; page: " + page + "; class: 'book'");
         } else {
             this.setState({ book_class: "book hide"});
+            console.log("val: " + val + "; page: " + page + "; class: 'book hide'");
         }
 
         BooksAPI.update(book, val).then((res) => res);

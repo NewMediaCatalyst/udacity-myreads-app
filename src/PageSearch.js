@@ -19,30 +19,42 @@ class PageSearch extends Component {
         maxResults: 10
     }
 
-    updateQuery = (query) => {
+    updateQuery(query) {
         this.setState({ query: query });
         if (query === '') {
             this.clearBooks();
         } else {
             this.searchBooks();
         }
-
     }
 
-    searchBooks = () => {
+    clearBooks() {
+        this.setState({ books: [] });
+    }
+
+    searchBooks() {
         let {query} = this.state,
             {maxResults} = this.props;
 
         BooksAPI.search(query, maxResults).then((books) => {
-            if (books !== undefined && books.error === undefined) {
+            if (books === undefined) { return null; }
+            if (books.error === undefined) {
                 books.error = false;
             }
             this.setState({ books: books });
-        })
+            return true;
+        }).then(() => this.updateWithShelf() );
     }
 
-    clearBooks = () => {
-        this.setState({ books: [] });
+    updateWithShelf() {
+        let {books} = this.state;
+        books.map((book, idx) => {
+            BooksAPI.get(book.id).then((book) => {
+                books[idx].shelf = book.shelf;
+                this.setState({ books: books});
+            });
+            return true;
+        });
     }
 
     render() {
@@ -56,6 +68,7 @@ class PageSearch extends Component {
                     <div className="search-books-input-wrapper">
                         <input
                             onChange={(ev) => this.updateQuery(ev.target.value)}
+                            autoFocus={true}
                             value={query}
                             type="text"
                             placeholder="Search by title or author"
