@@ -185,12 +185,13 @@ body,
 .book {
     width: 112px;
     opacity: 1;
-    transition: opacity ease-in 0.25s, transform ease-in 0.25s;
+    transition: opacity ease-out 0.5s 0.4s,
+        transform ease-out 0.6s 0.25s;
     transform: scale(1);
 }
 
 .book.hide {
-    transform: scale(0.75);
+    transform: scale(0.85);
     opacity: 0;
 }
 

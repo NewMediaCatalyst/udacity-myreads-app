@@ -43,7 +43,7 @@ class PageHome extends Component {
                 this.setState({ shelves: shelves });
             });
         }
-        setTimeout(updateBooks, 500);
+        setTimeout(updateBooks, 1000);
     }
 
     renderShelves() {
