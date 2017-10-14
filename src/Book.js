@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import * as BooksAPI from './BooksAPI';
 
@@ -12,6 +13,13 @@ class Book extends Component {
         this.state = {
             book_class: "book"
         }
+    }
+
+    static propTypes = {
+        book: PropTypes.object.isRequired,
+        optList: PropTypes.array.isRequired,
+        page: PropTypes.string.isRequired,
+        updateShelves: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -31,7 +39,7 @@ class Book extends Component {
         let {shelf} = book;
         if (page === "search") {
             if (shelf !== undefined && shelf !== "none") {
-                this.setState({ book_class: "book hide"});
+                this.setState({ book_class: "book hide" });
             }
         }
     }
@@ -40,12 +48,11 @@ class Book extends Component {
     handleChange(event) {
         let {book, page, updateShelves} = this.props,
             val = event.target.value;
+
         if (val === "none" && page === "search") {
             this.setState({ book_class: "book"});
-            console.log("val: " + val + "; page: " + page + "; class: 'book'");
         } else {
             this.setState({ book_class: "book hide"});
-            console.log("val: " + val + "; page: " + page + "; class: 'book hide'");
         }
 
         BooksAPI.update(book, val).then((res) => res);

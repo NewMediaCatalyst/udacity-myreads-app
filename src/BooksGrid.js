@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import Book from './Book';
 
 
 class BooksGrid extends Component {
+
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        page: PropTypes.string.isRequired,
+        updateShelves: PropTypes.func
+    }
 
     render() {
         const {books, page, updateShelves} = this.props;

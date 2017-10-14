@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid';
@@ -11,8 +12,12 @@ class PageSearch extends Component {
         super(props);
         this.state = {
             query: "",
-            books: { error: false }
+            books: []
         };
+    }
+
+    static propTypes = {
+        maxResults: PropTypes.number.isRequired
     }
 
     static defaultProps = {
