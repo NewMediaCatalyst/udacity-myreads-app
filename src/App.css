@@ -184,7 +184,26 @@ body,
 
 .book {
     width: 112px;
+    opacity: 1;
+    transition: opacity ease-in 0.25s, transform ease-in 0.25s;
+    transform: scale(1);
 }
+
+.book.hide {
+    transform: scale(0.75);
+    opacity: 0;
+}
+
+
+.search-books .book {
+    transition: opacity ease-out 0.25s;
+}
+
+.search-books .book.hide {
+    transform: scale(1);
+    opacity: 0.65;
+}
+
 
 .book-title,
 .book-authors {

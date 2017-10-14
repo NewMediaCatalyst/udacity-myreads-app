@@ -6,17 +6,8 @@ import Book from './Book';
 
 class BooksGrid extends Component {
 
-    constructor(props) {
-        super(props);
-        this.removeItem = this.removeItem.bind(this);
-    }
-
-    removeItem(book) {
-        console.log("book to remove: ", book.id);
-    }
-
     render() {
-        const {books, page} = this.props;
+        const {books, page, updateShelves} = this.props;
         // if (books === undefined) { return null; }
         let link = null;
 
@@ -25,7 +16,7 @@ class BooksGrid extends Component {
                 {books.map((book) => (
                     <li key={book.id}>
                         <Book
-                            removeItem={this.removeItem}
+                            updateShelves={updateShelves}
                             page={page}
                             book={book}
                         />

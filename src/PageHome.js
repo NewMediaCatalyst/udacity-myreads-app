@@ -11,11 +11,7 @@ class PageHome extends Component {
         super(props);
         this.updateShelves = this.updateShelves.bind(this);
         this.state = {
-            shelves: [
-                {id: "currentlyReading", title: "Currently Reading", books: []},
-                {id: "wantToRead", title: "Want to Read", books: []},
-                {id: "read", title: "Read", books: []}
-            ]
+            shelves: this.initShelves()
         };
     }
 
@@ -23,19 +19,31 @@ class PageHome extends Component {
         this.updateShelves();
     }
 
+    initShelves() {
+        return [
+            {id: "currentlyReading", title: "Currently Reading", books: []},
+            {id: "wantToRead", title: "Want to Read", books: []},
+            {id: "read", title: "Read", books: []}
+        ]
+    }
+
     updateShelves(item) {
-        let {shelves} = this.state;
-        BooksAPI.getAll().then((bookset) => {
-            bookset.forEach((book) => {
-                let {shelf} = book;
-                for (let i = 0; i < shelves.length; i++) {
-                    if (shelf === shelves[i].id) {
-                        shelves[i].books.push(book);
+        let shelves = this.initShelves();
+
+        let updateBooks = () => {
+            BooksAPI.getAll().then((bookset) => {
+                bookset.forEach((book) => {
+                    let {shelf} = book;
+                    for (let i = 0; i < shelves.length; i++) {
+                        if (shelf === shelves[i].id) {
+                            shelves[i].books.push(book);
+                        }
                     }
-                }
+                });
+                this.setState({ shelves: shelves });
             });
-            this.setState({ shelves: shelves });
-        });
+        }
+        setTimeout(updateBooks, 500);
     }
 
     renderShelves() {
@@ -49,11 +57,9 @@ class PageHome extends Component {
                 page="home"
             />
         });
-
     }
 
     render() {
-
         return (
             <div className="list-books">
                 <AppHeader />

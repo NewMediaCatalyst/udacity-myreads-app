@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI';
 
 
 class Book extends Component {
@@ -8,10 +8,14 @@ class Book extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.props.removeItem.bind(this);
+        this.updateShelves = this.props.updateShelves.bind(this);
+        this.state = {
+            book_class: "book"
+        }
     }
 
     static defaultProps = {
+        updateShelves: () => {},
         optList: [
             {val: "none", text: "Move to..."},
             {val: "currentlyReading", text: "Currently Reading"},
@@ -22,13 +26,18 @@ class Book extends Component {
     }
 
     handleChange(event) {
-        const {book, removeItem, page} = this.props,
+        const {book, page, updateShelves} = this.props,
             val = event.target.value;
+        if (val === "none" && page === "search") {
+            this.setState({ book_class: "book"});
+        } else {
+            this.setState({ book_class: "book hide"});
+        }
 
         BooksAPI.update(book, val).then((res) => res);
 
         if (page !== undefined && page === "home") {
-            removeItem(book);
+            updateShelves(book);
         }
 
     }
@@ -38,7 +47,8 @@ class Book extends Component {
             {title, authors, imageLinks, shelf} = book;
         if (book === undefined || authors === undefined) { return null; }
         let {smallThumbnail} = imageLinks,
-              coverStyle = {backgroundImage: `url(${smallThumbnail})`};
+            {book_class} = this.state,
+            coverStyle = {backgroundImage: `url(${smallThumbnail})`};
 
         const authorList = authors.map((author, idx, authors) => {
             const len = authors.length;
@@ -60,7 +70,7 @@ class Book extends Component {
 
 
         return (
-            <div className="book">
+            <div className={book_class}>
                 <div className="book-top">
                     <div className="book-cover" style={coverStyle}></div>
                     <div className="book-shelf-changer">
