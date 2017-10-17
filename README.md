@@ -1,10 +1,15 @@
 # MyReads Project
 
-This is my version of the final assessment project for Udacity's React Nanodegree program.
+* This is my version of the MyReads web app project for [Udacity's React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) program.
+* In this project you can:
+    * add books to three different 'shelves': currently reading, want to read, and read.
+    * change the shelves the books are on, or remove them entirely
+    * search for (a limited number of) books
+    * and then, from the search results, add to your book shelves
 
 ## TL;DR
 
-To get started developing right away:
+To get started with the project:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
