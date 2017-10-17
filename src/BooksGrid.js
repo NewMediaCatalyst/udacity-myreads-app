@@ -15,48 +15,73 @@ class BooksGrid extends Component {
     }
 
     static propTypes = {
-        books: PropTypes.array.isRequired,
+        books: PropTypes.object.isRequired,
         page: PropTypes.string.isRequired,
         updateShelves: PropTypes.func
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.books !== undefined && nextProps.books.length >= 0) {
+        if (nextProps.books.items !== undefined && nextProps.books.items.length >= 0) {
             this.setState({ loading: false });
         }
     }
 
-    render() {
+    renderResults() {
         const {books, page, updateShelves} = this.props;
-        let link = null, text = "Loading books...",
+
+        return <ol className="books-grid">
+            {books.items.map((book) => (
+                <li key={book.id}>
+                    <Book updateShelves={updateShelves} page={page} book={book} />
+                </li>
+                )
+            )}
+        </ol>
+    }
+
+    renderNoResults() {
+        const {books, page} = this.props;
+        let link = null,
+            text = "",
             {loading} = this.state;
 
-        if (books !== null && books !== undefined && books.length > 0) {
-            return <ol className="books-grid">
-                {books.map((book) => (
-                    <li key={book.id}>
-                        <Book
-                            updateShelves={updateShelves}
-                            page={page}
-                            book={book}
-                        />
-                    </li>
-                    )
-                )}
-            </ol>
-        }
-
-        if (!loading) {
-            if (page === "home" || page === undefined) {
+        if (page !== "search") {
+            if (loading && books.error === "") { // first load AND no errors
+                text = "Loading books...";
+            } else if (!loading && books.error !== "") { // not first load AND errors
+                text = books.error;
+            } else { // not first load AND no results
+                text = "No books in this shelf! ";
                 link = <Link to="/search">Add a book &raquo;</Link>
             }
-            text = "No books, currently! ";
+        } else {
+            if (loading && books.error === "") { // first load AND no errors
+                text = "Use the search field to find books.";
+            } else if (!loading && books.error !== "") {
+                text = books.error === "empty query" ?
+                    "No results from query. Please retry your search." : books.error;
+            } else {
+                text = "Use the search field to find books.";
+            }
         }
 
         return <div className="no-results">
             {text}
             {link}
         </div>
+    }
+
+    render() {
+        const {books} = this.props;
+
+        if (books.items !== null
+            && books.items !== undefined
+            && books.items.length > 0) {
+                return this.renderResults();
+        } else {
+            return this.renderNoResults();
+        }
+
     }
 }
 

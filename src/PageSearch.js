@@ -12,7 +12,7 @@ class PageSearch extends Component {
         super(props);
         this.state = {
             query: "",
-            books: []
+            books: { error: "", items: [] }
         };
     }
 
@@ -34,7 +34,7 @@ class PageSearch extends Component {
     }
 
     clearBooks() {
-        this.setState({ books: [] });
+        this.setState({ books: { error: "", items: [] } });
     }
 
     searchBooks() {
@@ -42,24 +42,38 @@ class PageSearch extends Component {
             {maxResults} = this.props;
 
         BooksAPI.search(query, maxResults).then((books) => {
-            if (books === undefined) { return null; }
-            if (books.error === undefined) {
-                books.error = false;
+            if (books === undefined || books === []) {
+                this.setState({ books: { error: "", items: [] } });
+            } else if (books.error === undefined || books.error === "") {
+                this.setState({ books: { error: "", items: books } });
+            } else {
+                this.setState({ books: books });
             }
-            this.setState({ books: books });
-            return true;
-        }).then(() => this.updateWithShelf() );
+            return books;
+        }).then((books) => {
+            if (books === undefined) {
+                return undefined;
+            } else if (books.error !== null && books.error !== undefined && books.error.length > 0) {
+                return false;
+            } else {
+                return this.updateWithShelf();
+            }
+        });
     }
 
     updateWithShelf() {
         let {books} = this.state;
-        books.map((book, idx) => {
-            BooksAPI.get(book.id).then((book) => {
-                books[idx].shelf = book.shelf;
-                this.setState({ books: books});
+        if (books.error === "") {
+            books.items.map((book, idx) => {
+                BooksAPI.get(book.id).then((book) => {
+                    books.items[idx].shelf = book.shelf;
+                    this.setState({ books: books });
+                });
+                return true;
             });
-            return true;
-        });
+        } else {
+            return false;
+        }
     }
 
     render() {

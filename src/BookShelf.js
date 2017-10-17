@@ -7,7 +7,7 @@ import BooksGrid from './BooksGrid';
 class BookShelf extends Component {
 
     static propTypes = {
-        books: PropTypes.array.isRequired,
+        books: PropTypes.object.isRequired,
         title: PropTypes.string.isRequired,
         page: PropTypes.string.isRequired,
         updateShelves: PropTypes.func.isRequired

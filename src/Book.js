@@ -66,10 +66,15 @@ class Book extends Component {
     render() {
         let {book, optList} = this.props,
             {title, authors, imageLinks, shelf} = book;
-        if (book === undefined || authors === undefined) { return null; }
-        let {smallThumbnail} = imageLinks,
-            {book_class} = this.state,
-            coverStyle = {backgroundImage: `url(${smallThumbnail})`};
+        if (book === undefined || book === [] || authors === undefined) { return null; }
+        let coverStyle, {book_class} = this.state;
+
+        // handle books without cover images
+        if (imageLinks !== undefined && imageLinks.smallThumbnail !== undefined) {
+            coverStyle = {backgroundImage: `url(${imageLinks.smallThumbnail})`};
+        } else {
+            coverStyle = {backgroundImage: `url(https://dummyimage.com/128x154/666/fff.png&text=No+Image)`};
+        }
 
         const authorList = authors.map((author, idx, authors) => {
             const len = authors.length;

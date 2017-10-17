@@ -21,9 +21,9 @@ class PageHome extends Component {
 
     initShelves() {
         return [
-            {id: "currentlyReading", title: "Currently Reading", books: []},
-            {id: "wantToRead", title: "Want to Read", books: []},
-            {id: "read", title: "Read", books: []}
+            {id: "currentlyReading", title: "Currently Reading", books: {error: "", items: []}},
+            {id: "wantToRead", title: "Want to Read", books: {error: "", items: []}},
+            {id: "read", title: "Read", books: {error: "", items: []}}
         ]
     }
 
@@ -36,7 +36,7 @@ class PageHome extends Component {
                     let {shelf} = book;
                     for (let i = 0; i < shelves.length; i++) {
                         if (shelf === shelves[i].id) {
-                            shelves[i].books.push(book);
+                            shelves[i].books.items.push(book);
                         }
                     }
                 });
